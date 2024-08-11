@@ -1,13 +1,13 @@
 <template>
-    <div class="hello">
+    <div>
         <h1>{{ msg }}</h1>
-        <NodesList :nodes="nodes"/>
+        <NodeList :nodes="nodes"/>
     </div>
 </template>
 
 <script lang="ts">
 import {defineComponent} from 'vue';
-import NodesList from '@/components/NodesList.vue';
+import NodeList from '@/components/NodeList.vue';
 import Node from '@/types/Node';
 import NodeRepository from '@/api/NodeRepository';
 
@@ -18,7 +18,7 @@ interface State {
 export default defineComponent({
     name: 'App',
     components: {
-        NodesList,
+        NodeList,
     },
     props: {
         msg: String,
@@ -35,7 +35,3 @@ export default defineComponent({
     },
 });
 </script>
-
-<style scoped>
-
-</style>

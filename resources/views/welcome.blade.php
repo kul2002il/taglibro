@@ -7,8 +7,9 @@
     <link rel="icon" href="favicon.ico">
     <title>Taglibro</title>
     @vite(['resources/js/app.js'])
+    @vite(['resources/css/app.css'])
 </head>
-<body>
+<body class="bg-gray-300">
 <noscript>
     <strong>We're sorry but Taglibro doesn't work properly without JavaScript enabled.
         Please enable it to continue.</strong>
