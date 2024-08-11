@@ -15,6 +15,7 @@ class NodeResource extends JsonResource
     {
         return [
             'id' => $this->resource->id,
+            'name' => $this->resource->name,
             'type' => $this->resource->type,
             'content' => $this->resource->content,
         ];
