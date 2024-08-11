@@ -1,27 +1,41 @@
 <template>
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
+    <div class="hello">
+        <h1>{{ msg }}</h1>
+        <NodesList :nodes="nodes"/>
+    </div>
 </template>
 
 <script lang="ts">
 import {defineComponent} from 'vue';
-import HelloWorld from './components/HelloWorld.vue';
+import NodesList from '@/components/NodesList.vue';
+import Node from '@/types/Node';
+import NodeRepository from '@/api/NodeRepository';
+
+interface State {
+    nodes: Node[],
+}
 
 export default defineComponent({
     name: 'App',
     components: {
-        HelloWorld
-    }
+        NodesList,
+    },
+    props: {
+        msg: String,
+    },
+    data(): State {
+        return {
+            nodes: [],
+        };
+    },
+    created(): void {
+        (new NodeRepository())
+        .loadAll()
+        .then((nodes: Node[]) => this.nodes=nodes);
+    },
 });
 </script>
 
-<style>
-#app {
-    font-family: Avenir, Helvetica, Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-align: center;
-    color: #2c3e50;
-    margin-top: 60px;
-}
+<style scoped>
+
 </style>
