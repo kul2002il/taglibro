@@ -9,12 +9,13 @@
     @vite(['resources/js/app.js'])
     @vite(['resources/css/app.css'])
 </head>
-<body class="bg-gray-300">
+<body>
 <noscript>
-    <strong>We're sorry but Taglibro doesn't work properly without JavaScript enabled.
-        Please enable it to continue.</strong>
+    <strong>
+        We're sorry but Taglibro doesn't work properly without JavaScript enabled.
+        Please enable it to continue.
+    </strong>
 </noscript>
-<div id="app"></div>
-<!-- built files will be auto injected -->
+<div id="app" class="bg-gray-300 h-screen"></div>
 </body>
 </html>
