@@ -1,7 +1,7 @@
 <template>
     <div class="flex flex-row justify-stretch space-x-4 h-full p-6">
-        <NodeList :nodes="nodes"/>
-        <NodeEditor :node="nodes[0]"/>
+        <NodeList :nodes="nodes" @select-node="selectNode"/>
+        <NodeEditor :node="editNode"/>
     </div>
 </template>
 
@@ -15,6 +15,7 @@ import NodeEditor from '@/components/NodeEditor.vue';
 
 interface State {
     nodes: Node[],
+    editNode: Node|null
 }
 
 export default defineComponent({
@@ -29,12 +30,18 @@ export default defineComponent({
     data(): State {
         return {
             nodes: [],
+            editNode: null,
         };
     },
     created(): void {
         (new NodeRepository())
-        .loadAll()
+        .list()
         .then((nodes: Node[]) => this.nodes=nodes);
     },
+    methods: {
+        selectNode(id: number): void {
+            this.editNode = this.nodes.find(e => e.id === id) || null;
+        }
+    }
 });
 </script>

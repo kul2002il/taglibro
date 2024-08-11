@@ -35,6 +35,7 @@ class NodeController extends Controller
     public function update(UpdateNodeRequest $request, Node $node): JsonResource
     {
         $node->fill($request->validated());
+        $node->save();
         return new NodeResource($node);
     }
 
