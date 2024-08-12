@@ -1,7 +1,7 @@
 <template>
     <div class="flex flex-row justify-stretch space-x-4 h-full p-6">
         <NodeList :nodes="nodes" @select-node="selectNode"/>
-        <NodeEditor :node="editNode"/>
+        <NodeEditor :node="editNode" @update-node="updateNode"/>
     </div>
 </template>
 
@@ -41,7 +41,27 @@ export default defineComponent({
     methods: {
         selectNode(id: number): void {
             this.editNode = this.nodes.find(e => e.id === id) || null;
-        }
-    }
+        },
+        updateNode(updatedNode: Node): void {
+            let index = this.nodes.findIndex(
+                (node: Node) => node.id === updatedNode.id
+            );
+            this.nodes[index] = updatedNode;
+            this.sortNodes();
+        },
+        sortNodes(): void {
+            this.nodes.sort(
+                (a: Node, b: Node) => {
+                    if (a.updatedAt > b.updatedAt) {
+                        return -1;
+                    }
+                    if (a.updatedAt < b.updatedAt) {
+                        return 1;
+                    }
+                    return 0;
+                }
+            );
+        },
+    },
 });
 </script>

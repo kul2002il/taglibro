@@ -4,4 +4,6 @@ export default interface Node {
     name: string,
     type: string,
     content: string,
+    createdAt: string,
+    updatedAt: string,
 }

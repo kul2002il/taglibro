@@ -1,7 +1,7 @@
 <template>
     <div v-if="node" class="container p-4 rounded-2xl bg-white">
-        <ContentEditable is="h1"  class="text-xl mb-4" @focusout="save" v-model="node.name"></ContentEditable>
-        <ContentEditable is="div" class="font-mono"    @focusout="save" v-model="node.content"></ContentEditable>
+        <ContentEditable is="h1"  class="text-xl mb-4" @input="touch" @focusout="save" v-model="node.name"></ContentEditable>
+        <ContentEditable is="div" class="font-mono"    @input="touch" @focusout="save" v-model="node.content"></ContentEditable>
     </div>
     <div v-else class="container p-4 rounded-2xl">
         <h1 class="text-xl mb-4">Нет выбранной заметки</h1>
@@ -30,14 +30,26 @@ export default defineComponent({
         }
     },
     methods: {
-        save(): void {
+        touch(): void {
             if (!this.node) {
                 return;
             }
 
-            (new NodeRepository()).save(this.node);
+            this.node.updatedAt = '3'; // TODO: set current date
+            this.$emit('updateNode', this.node);
+        },
+        async save(): Promise<void> {
+            if (!this.node) {
+                return;
+            }
+
+            let node = await (new NodeRepository()).save(this.node);
+            this.$emit('updateNode', node);
         },
     },
+    emits: {
+        updateNode: (node: Node) => true,
+    }
 });
 
 </script>
