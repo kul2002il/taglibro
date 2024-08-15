@@ -1,6 +1,6 @@
 <template>
     <div class="flex flex-row justify-stretch space-x-4 h-full p-6">
-        <NodeList :nodes="nodes" @select-node="selectNode"/>
+        <NodeList :nodes="nodes" @select-node="selectNode" @create-node="createNode"/>
         <NodeEditor :node="editNode" @update-node="updateNode"/>
     </div>
 </template>
@@ -9,7 +9,7 @@
 
 import {defineComponent} from 'vue';
 import NodeList from '@/components/NodeList.vue';
-import Node from '@/types/Node';
+import Node, { NEW_NODE_ID } from '@/types/Node';
 import NodeRepository from '@/api/NodeRepository';
 import NodeEditor from '@/components/NodeEditor.vue';
 
@@ -39,6 +39,16 @@ export default defineComponent({
         .then((nodes: Node[]) => this.nodes=nodes);
     },
     methods: {
+        createNode(): void {
+            this.editNode = {
+                id: NEW_NODE_ID,
+                name: '',
+                type: 'text',
+                content: '',
+                createdAt: '3',
+                updatedAt: '3',
+            }
+        },
         selectNode(id: number): void {
             this.editNode = this.nodes.find(e => e.id === id) || null;
         },
@@ -46,7 +56,13 @@ export default defineComponent({
             let index = this.nodes.findIndex(
                 (node: Node) => node.id === updatedNode.id
             );
-            this.nodes[index] = updatedNode;
+
+            if (index === -1) {
+                this.nodes.push(updatedNode);
+            } else {
+                this.nodes[index] = updatedNode;
+            }
+
             this.sortNodes();
         },
         sortNodes(): void {

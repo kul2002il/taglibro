@@ -1,7 +1,7 @@
 <template>
     <div v-if="node" class="container p-4 rounded-2xl bg-white">
-        <ContentEditable is="h1"  class="text-xl mb-4" @input="touch" @focusout="save" v-model="node.name"></ContentEditable>
-        <ContentEditable is="div" class="font-mono"    @input="touch" @focusout="save" v-model="node.content"></ContentEditable>
+        <ContentEditable is="h1"  class="text-xl mb-4" @input="touch" @focusout="save" v-model="node.name" placeholder="Название заметки"></ContentEditable>
+        <ContentEditable is="div" class="font-mono"    @input="touch" @focusout="save" v-model="node.content" placeholder="Текст заметки."></ContentEditable>
     </div>
     <div v-else class="container p-4 rounded-2xl">
         <h1 class="text-xl mb-4">Нет выбранной заметки</h1>
@@ -15,7 +15,7 @@
 
 import NodeRepository from '@/api/NodeRepository';
 import ContentEditable from '@/components/ContentEditable.vue';
-import Node from '@/types/Node';
+import Node, { NEW_NODE_ID } from '@/types/Node';
 import {defineComponent, PropType} from 'vue';
 
 export default defineComponent({
@@ -31,7 +31,7 @@ export default defineComponent({
     },
     methods: {
         touch(): void {
-            if (!this.node) {
+            if (!this.node || this.node.id === NEW_NODE_ID) {
                 return;
             }
 
@@ -40,6 +40,12 @@ export default defineComponent({
         },
         async save(): Promise<void> {
             if (!this.node) {
+                return;
+            }
+
+            if (this.node.id === NEW_NODE_ID) {
+                let node = await (new NodeRepository()).create(this.node);
+                this.$emit('updateNode', node);
                 return;
             }
 

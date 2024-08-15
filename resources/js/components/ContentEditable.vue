@@ -1,5 +1,5 @@
 <template>
-    <component :is="is" v-bind="props" contenteditable="true" ref="editor" @input="onInput"></component>
+    <component :is="is" class="input" v-bind="props" contenteditable="true" ref="editor" @input="onInput"></component>
 </template>
 
 <script lang="ts">
@@ -24,7 +24,8 @@ export default defineComponent({
     },
     methods: {
         onInput(): void {
-            this.$emit('update:modelValue', (this.$refs.editor as HTMLHtmlElement).innerText)
+            let text = (this.$refs.editor as HTMLHtmlElement).innerText;
+            this.$emit('update:modelValue', text.trim())
         },
         updateEditor(newValue: string): void {
             if ((this.$refs.editor as HTMLHtmlElement).innerText !== newValue) {
@@ -43,3 +44,12 @@ export default defineComponent({
 });
 
 </script>
+
+<style scoped>
+.input:empty::before{
+    content: attr(placeholder);
+    color: #555;
+    display: block;
+    pointer-events: none
+}
+</style>
