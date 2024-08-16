@@ -14,10 +14,10 @@ class NodeResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id' => $this->resource->id,
-            'name' => $this->resource->name,
-            'type' => $this->resource->type,
-            'content' => $this->resource->content,
+            'id'        => $this->resource->id,
+            'name'      => $this->resource->name,
+            'type'      => $this->resource->type,
+            'content'   => $this->resource->content,
             'createdAt' => $this->resource->created_at->getTimestampMs(),
             'updatedAt' => $this->resource->updated_at->getTimestampMs(),
         ];
