@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Node\TextNode;
 
+use App\Models\Node;
 use Carbon\Carbon;
 use Database\Factories\NodeFactory;
 use Tests\TestCase;
@@ -15,11 +16,14 @@ class TextNodeTest extends TestCase
             'id' => 1,
             'name' => 'Node1'
         ])->create();
-        NodeFactory::new()->state([
+        /** @var Node $node2 */
+        $node2 = NodeFactory::new()->state([
             'id' => 2,
             'name' => 'Node2',
-            'content' => 'This is link to [[Node1]]. It\'s perfect.'
+            'content' => 'This is link to [[Node1]] and [[Non exist node]]. It\'s perfect.'
         ])->create();
+
+        $node2->updateLinks();
 
         $response = $this->get('api/nodes/2');
 

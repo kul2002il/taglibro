@@ -21,4 +21,17 @@ class Node extends Model
         'content',
         'type,'
     ];
+
+    public function updateLinks(): void
+    {
+        $names = $this->getLinksFromContent();
+        $nodes = self::query()->whereIn('name', $names)->get();
+    }
+
+    public function getLinksFromContent(): array
+    {
+        $matches = [];
+        preg_match_all('/\[\[(.+?)\]\]/', $this->content, $matches);
+        return $matches[1];
+    }
 }
