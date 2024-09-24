@@ -1,6 +1,6 @@
 
 export default abstract class AbstractRepository {
-    basePath: string = window.location.origin + '/';
+    private basePath: string = window.location.origin + '/';
 
     async get(path: string): Promise<Object | Object[]>
     {

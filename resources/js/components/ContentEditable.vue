@@ -45,7 +45,7 @@ export default defineComponent({
 
 </script>
 
-<style scoped>
+<style module>
 .input:empty::before{
     content: attr(placeholder);
     color: #555;
