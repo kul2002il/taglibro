@@ -2,24 +2,20 @@
 
 namespace App\Http\Resources;
 
-use App\Models\Node;
+use App\Http\Tasks\GetLinksFromNodeTask;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
 
-/**
- * @property Node $resource
- */
-class NodeResource extends JsonResource
+class NodeResource extends NodeShortResource
 {
     public function toArray(Request $request): array
     {
-        return [
-            'id'        => $this->resource->id,
-            'name'      => $this->resource->name,
-            'type'      => $this->resource->type,
+        return parent::toArray($request) + [
             'content'   => $this->resource->content,
-            'createdAt' => $this->resource->created_at->getTimestampMs(),
-            'updatedAt' => $this->resource->updated_at->getTimestampMs(),
+            'meta'      => [
+                'links' => LinkResource::collection(
+                    (new GetLinksFromNodeTask($this->resource))->run()
+                ),
+            ],
         ];
     }
 }
