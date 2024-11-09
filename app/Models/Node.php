@@ -2,16 +2,15 @@
 
 namespace App\Models;
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * @property int id
- * @property string name
- * @property string content
- * @property string type
- * @property Carbon created_at
- * @property Carbon updated_at
+ * @property int $id
+ * @property string $name
+ * @property string $content
+ * @property string $type
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
  */
 class Node extends Model
 {
