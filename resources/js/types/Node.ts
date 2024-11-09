@@ -7,3 +7,5 @@ export default interface Node {
     createdAt: string,
     updatedAt: string,
 }
+
+export const NEW_NODE_ID = -1;
