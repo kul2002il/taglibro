@@ -4,8 +4,13 @@ import AbstractRepository from "@/api/AbstractRepository";
 
 export default class NodeRepository extends AbstractRepository
 {
-    async loadAll(): Promise<Node[]>
+    async list(): Promise<Node[]>
     {
         return (await this.get('api/nodes')) as Node[];
+    }
+
+    async save(node: Node): Promise<Node>
+    {
+        return (await this.putJson('api/nodes/' + node.id, node)) as Node;
     }
 }

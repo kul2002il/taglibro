@@ -13,4 +13,10 @@ use Illuminate\Database\Eloquent\Model;
 class Node extends Model
 {
     public const TYPE_TEXT = 'test';
+
+    protected $fillable = [
+        'name',
+        'content',
+        'type,'
+    ];
 }

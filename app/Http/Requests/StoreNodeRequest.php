@@ -15,7 +15,7 @@ class StoreNodeRequest extends FormRequest
     {
         return [
             'name' => ['string'],
-            'content' => ['text'],
+            'content' => ['string'],
         ];
     }
 }
