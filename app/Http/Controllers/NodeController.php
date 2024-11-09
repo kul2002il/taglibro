@@ -24,6 +24,7 @@ class NodeController extends Controller
     {
         $node = new Node($request->validated());
         $node->save();
+
         return new NodeResource($node);
     }
 
@@ -36,12 +37,14 @@ class NodeController extends Controller
     {
         $node->fill($request->validated());
         $node->save();
+
         return new NodeResource($node);
     }
 
     public function destroy(Node $node): JsonResource
     {
         $node->delete();
+
         return response()->json([
             'success_delete' => $node->delete(),
         ]);

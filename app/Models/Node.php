@@ -32,6 +32,7 @@ class Node extends Model
     {
         $matches = [];
         preg_match_all('/\[\[(.+?)\]\]/', $this->content, $matches);
+
         return $matches[1];
     }
 }
