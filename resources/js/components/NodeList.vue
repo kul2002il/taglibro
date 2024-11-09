@@ -8,23 +8,22 @@
     </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 
 import {defineComponent, PropType} from 'vue';
-import Node from '@/types/Node';
 
-export default defineComponent({
-    name: "NodesList",
-    props: {
-        nodes: {
-            type: Array as PropType<Node[]>,
-            required: true,
-        }
+import type {Node} from '@/types/Node';
+
+defineProps({
+    nodes: {
+        type: Array as PropType<Node[]>,
+        required: true,
     },
-    emits: {
-        selectNode: (id: number) => Number.isInteger(id),
-        createNode: () => true,
-    },
+});
+
+defineEmits({
+    selectNode: (id: number) => Number.isInteger(id),
+    createNode: () => true,
 });
 
 </script>

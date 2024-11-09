@@ -1,5 +1,5 @@
 
-import Node from "@/types/Node";
+import type {Node} from "@/types/Node";
 import AbstractRepository from "@/api/AbstractRepository";
 
 export default class NodeRepository extends AbstractRepository

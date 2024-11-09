@@ -11,51 +11,46 @@
     </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 
 import NodeRepository from '@/api/NodeRepository';
 import ContentEditable from '@/components/ContentEditable.vue';
 import { Node, NEW_NODE_ID } from '@/types/Node';
 import { defineComponent, PropType } from 'vue';
 
-export default defineComponent({
-    name: "NodeEditor",
-    components: {
-        ContentEditable,
-    },
-    props: {
-        node: {
-            type: Object as PropType<Node|null>,
-            required: false,
-        }
-    },
-    methods: {
-        touch(): void {
-            if (!this.node || this.node.id === NEW_NODE_ID) {
-                return;
-            }
-
-            this.node.updatedAt = Date.now();
-            this.$emit('updateNode', this.node);
-        },
-        async save(): Promise<void> {
-            if (!this.node) {
-                return;
-            }
-
-            if (this.node.id === NEW_NODE_ID) {
-                let node = await (new NodeRepository()).create(this.node);
-                this.$emit('updateNode', node);
-                return;
-            }
-
-            let node = await (new NodeRepository()).save(this.node);
-            this.$emit('updateNode', node);
-        },
-    },
-    emits: {
-        updateNode: (node: Node) => true,
+const props = defineProps({
+    node: {
+        type: Object as PropType<Node|null>,
+        required: false,
     }
 });
+
+const emit = defineEmits({
+    updateNode: (node: Node) => true,
+});
+
+function touch(): void {
+    if (!props.node || props.node.id === NEW_NODE_ID) {
+        return;
+    }
+
+    props.node.updatedAt = Date.now();
+    emit('updateNode', props.node);
+}
+
+async function save(): Promise<void> {
+    if (!props.node) {
+        return;
+    }
+
+    if (props.node.id === NEW_NODE_ID) {
+        let node = await (new NodeRepository()).create(props.node);
+        emit('updateNode', node);
+        return;
+    }
+
+    let node = await (new NodeRepository()).save(props.node);
+    emit('updateNode', node);
+}
 
 </script>

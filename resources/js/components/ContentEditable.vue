@@ -1,52 +1,60 @@
 <template>
-    <component :is="is" class="input" v-bind="props" contenteditable="true" ref="editor" @input="onInput"></component>
+    <component
+        :is="is"
+        class="input"
+        v-bind="props"
+        contenteditable="true"
+        ref="editor"
+        @input="onInput"
+    ></component>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 
-import {defineComponent, PropType} from 'vue';
+import { PropType, onMounted, useTemplateRef, defineModel, defineProps, watchEffect } from 'vue';
 
-export default defineComponent({
-    name: "ContentEditable",
+const modelValue = defineModel<string>({default: ''});
+
+const props = defineProps({
+    is: {
+        type: String as PropType<string>,
+        required: true,
+    },
     props: {
-        is: {
-            type: String as PropType<string>,
-            required: true,
-        },
-        props: {
-            type: Object as PropType<Object>,
-            required: false,
-        },
-        modelValue: {
-            type: String as PropType<string>,
-            required: true,
-        },
+        type: Object as PropType<Object>,
+        required: false,
     },
-    methods: {
-        onInput(): void {
-            let text = (this.$refs.editor as HTMLHtmlElement).innerText;
-            this.$emit('update:modelValue', text.trim())
-        },
-        updateEditor(newValue: string): void {
-            if ((this.$refs.editor as HTMLHtmlElement).innerText !== newValue) {
-                (this.$refs.editor as HTMLHtmlElement).innerText = newValue;
-            }
-        }
-    },
-    watch: {
-        modelValue(newValue: string): void {
-            this.updateEditor(newValue);
-        }
-    },
-    mounted() {
-        this.updateEditor(this.modelValue);
-    },
+});
+
+const editor = useTemplateRef<HTMLHtmlElement>('editor');
+
+function onInput(): void {
+    let text = (editor.value as HTMLHtmlElement).innerText;
+    modelValue.value = text.trim();
+}
+
+function updateEditor(newValue: string): void {
+    if ((editor.value as HTMLHtmlElement).innerText !== newValue) {
+        (editor.value as HTMLHtmlElement).innerText = newValue;
+    }
+}
+
+watchEffect(() => {
+    if (!editor.value) {
+        return;
+    }
+
+    updateEditor(modelValue.value);
+})
+
+onMounted(() => {
+    updateEditor(modelValue.value);
 });
 
 </script>
 
 <style module>
-.input:empty::before{
+.input:empty::before {
     content: attr(placeholder);
     color: #555;
     display: block;
