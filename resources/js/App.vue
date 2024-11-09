@@ -9,7 +9,7 @@
 
 import {defineComponent} from 'vue';
 import NodeList from '@/components/NodeList.vue';
-import Node, { NEW_NODE_ID, newNode } from '@/types/Node';
+import { Node, NEW_NODE_ID, newNode } from '@/types/Node';
 import NodeRepository from '@/api/NodeRepository';
 import NodeEditor from '@/components/NodeEditor.vue';
 
@@ -43,7 +43,7 @@ export default defineComponent({
             this.editNode = newNode();
         },
         selectNode(id: number): void {
-            this.editNode = this.nodes.find(e => e.id === id) || null;
+            this.editNode = this.nodes.find((e: Node) => e.id === id) || null;
         },
         updateNode(updatedNode: Node): void {
             let index = this.nodes.findIndex(

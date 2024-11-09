@@ -15,8 +15,8 @@
 
 import NodeRepository from '@/api/NodeRepository';
 import ContentEditable from '@/components/ContentEditable.vue';
-import Node, { NEW_NODE_ID } from '@/types/Node';
-import {defineComponent, PropType} from 'vue';
+import { Node, NEW_NODE_ID } from '@/types/Node';
+import { defineComponent, PropType } from 'vue';
 
 export default defineComponent({
     name: "NodeEditor",
