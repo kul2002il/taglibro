@@ -12,10 +12,12 @@ class TextNodeTest extends TestCase
     public function testLinks(): void
     {
         Carbon::setTestNow('2024-08-15 12:00');
+
         NodeFactory::new()->state([
             'id'   => 1,
             'name' => 'Node1'
         ])->create();
+
         /** @var Node $node2 */
         $node2 = NodeFactory::new()->state([
             'id'      => 2,
@@ -33,9 +35,27 @@ class TextNodeTest extends TestCase
                 'id'        => 2,
                 'name'      => 'Node2',
                 'type'      => 'text',
-                'content'   => 'This is link to [[Node1]]. It\'s perfect.',
+                'content'   => 'This is link to [[Node1]] and [[Non exist node]]. It\'s perfect.',
                 'createdAt' => 1723723200000,
                 'updatedAt' => 1723723200000,
+                'meta'      => [
+                    'links' => [
+                        [
+                            'line' => '[[Node1]]',
+                            'node' => [
+                                'id'        => 1,
+                                'name'      => 'Node1',
+                                'type'      => 'text',
+                                'createdAt' => 1723723200000,
+                                'updatedAt' => 1723723200000,
+                            ],
+                        ],
+                        [
+                            'line' => '[[Non exist node]]',
+                            'node' => null,
+                        ],
+                    ],
+                ],
             ],
         ]);
     }
