@@ -1,6 +1,6 @@
 <template>
     <div v-if="node" class="container p-4 rounded-2xl bg-white">
-        <ContentEditable is="h1"  class="text-xl mb-4" @input="touch" @focusout="save" v-model="node.name" placeholder="Название заметки"></ContentEditable>
+        <ContentEditable is="h1"  class="text-xl mb-4" @input="touch" @focusout="save" v-model="node.name"    placeholder="Название заметки"></ContentEditable>
         <ContentEditable is="div" class="font-mono"    @input="touch" @focusout="save" v-model="node.content" placeholder="Текст заметки."></ContentEditable>
     </div>
     <div v-else class="container p-4 rounded-2xl">
@@ -35,7 +35,7 @@ export default defineComponent({
                 return;
             }
 
-            this.node.updatedAt = '3'; // TODO: set current date
+            this.node.updatedAt = Date.now();
             this.$emit('updateNode', this.node);
         },
         async save(): Promise<void> {
