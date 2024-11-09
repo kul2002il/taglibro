@@ -9,6 +9,11 @@ export default class NodeRepository extends AbstractRepository
         return (await this.get('api/nodes')) as Node[];
     }
 
+    async getOne(id: number): Promise<Node>
+    {
+        return (await this.get('api/nodes/' + id)) as Node;
+    }
+
     async create(node: Node): Promise<Node>
     {
         return (await this.postJson('api/nodes', node)) as Node;

@@ -1,7 +1,9 @@
 <template>
     <div class="flex flex-row justify-stretch space-x-4 h-full p-6">
         <NodeList :nodes="nodes" @select-node="selectNode" @create-node="createNode"/>
-        <RouterView/>
+        <RouterView
+            @updateNode="updateNode"
+        />
     </div>
 </template>
 
