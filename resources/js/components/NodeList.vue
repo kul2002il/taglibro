@@ -1,7 +1,9 @@
 <template>
     <div class="container max-w-sm p-4 rounded-2xl bg-white">
         <h2 class="mb-4 font-bold">Последние</h2>
-        <div class="mb-3 text-gray-600" @click="$emit('createNode')">+ Новая заметка</div>
+        <div class="mb-3 text-gray-600" @click="$emit('createNode')">
+            <RouterLink :to="{name: 'node', params: {id: NEW_NODE_ID}}">+ Новая заметка</RouterLink>
+        </div>
         <TransitionGroup name="list" tag="ul">
             <li class="mb-2" v-for="node in nodes" :key="node.id">
                 <RouterLink :to="{name: 'node', params: {id: node.id}}">• {{node.name}}</RouterLink>
@@ -14,7 +16,7 @@
 
 import {defineComponent, PropType} from 'vue';
 
-import type {Node} from '@/types/Node';
+import {NEW_NODE_ID, type Node} from '@/types/Node';
 
 defineProps({
     nodes: {

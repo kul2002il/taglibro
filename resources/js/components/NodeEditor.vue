@@ -1,6 +1,6 @@
 <template>
     <div v-if="node" class="container p-4 rounded-2xl bg-white">
-        <ContentEditable is="h1"  class="text-xl mb-4" @input="touch" @focusout="save" v-model="node.name"    placeholder="Название заметки"></ContentEditable>
+        <ContentEditable is="h1"  class="text-xl mb-4" @input="touch" @focusout="save(node)" v-model="node.name"    placeholder="Название заметки"></ContentEditable>
         <ContentEditable is="div" class="font-mono"    @input="touch" @focusout="save(node)" v-model="node.content" placeholder="Текст заметки."></ContentEditable>
     </div>
     <div v-else class="container p-4 rounded-2xl">
@@ -14,14 +14,15 @@
 <script setup lang="ts">
 
 import { onMounted, ref, watchEffect } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 
-import { Node, NEW_NODE_ID } from '@/types/Node';
+import { Node, NEW_NODE_ID, newNode } from '@/types/Node';
 
 import NodeRepository from '@/api/NodeRepository';
 import ContentEditable from '@/components/ContentEditable.vue';
 
 const route = useRoute();
+const router = useRouter();
 
 const node = ref<Node|null>(null);
 const repository = new NodeRepository();
@@ -34,10 +35,16 @@ onMounted(async () => {
     openNodeByIdInUrl();
 });
 watchEffect(async () => {
-    openNodeByIdInUrl()
+    openNodeByIdInUrl();
 });
 
 async function openNodeByIdInUrl() {
+    if (+route.params.id === NEW_NODE_ID)
+    {
+        node.value = newNode();
+        return;
+    }
+
     node.value = await repository.getOne(+route.params.id);
 }
 
@@ -58,6 +65,7 @@ async function save(nodeToSave: Node): Promise<void> {
     if (nodeToSave.id === NEW_NODE_ID) {
         let node = await repository.create(nodeToSave);
         emit('updateNode', node);
+        router.replace({name: 'node', params: {id: node.id}});
         return;
     }
 
