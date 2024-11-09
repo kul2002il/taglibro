@@ -12,7 +12,12 @@ class NodeController extends Controller
 {
     public function index(): JsonResource
     {
-        return NodeResource::collection(Node::all());
+        return NodeResource::collection(
+            Node::query()
+                ->orderBy('updated_at', 'desc')
+                ->limit('20')
+                ->get()
+        );
     }
 
     public function store(StoreNodeRequest $request): JsonResource

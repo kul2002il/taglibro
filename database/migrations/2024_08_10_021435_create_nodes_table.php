@@ -10,6 +10,7 @@ return new class extends Migration
     {
         Schema::create('nodes', function (Blueprint $table) {
             $table->id();
+            $table->string('name')->unique();
             $table->text('content');
             $table->string('type')->default('text');
             $table->timestamps();

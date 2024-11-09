@@ -1,6 +1,6 @@
 <template>
     <div v-if="node" class="container p-4 rounded-2xl bg-white">
-        <h1 class="text-xl mb-4">Название заметки</h1>
+        <h1 class="text-xl mb-4">{{ node.name }}</h1>
         <div class="font-mono">{{ node.content }}</div>
     </div>
     <div v-else class="container p-4 rounded-2xl">
