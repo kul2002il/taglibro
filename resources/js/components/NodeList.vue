@@ -1,9 +1,9 @@
 <template>
     <div class="container max-w-sm p-4 rounded-2xl bg-white">
         <h2 class="mb-4 font-bold">Последние</h2>
-        <ul>
+        <TransitionGroup name="list" tag="ul">
             <li class="mb-2" v-for="node in nodes" :key="node.id" @click="$emit('selectNode', node.id)">• {{node.name}}</li>
-        </ul>
+        </TransitionGroup>
     </div>
 </template>
 
@@ -22,7 +22,27 @@ export default defineComponent({
     },
     emits: {
         selectNode: (id: number) => Number.isInteger(id),
-    }
+    },
 });
 
 </script>
+
+<style scoped>
+
+.list-move,
+.list-enter-active,
+.list-leave-active {
+  transition: all 0.5s ease;
+}
+
+.list-enter-from,
+.list-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
+}
+
+.list-leave-active {
+  position: absolute;
+}
+
+</style>

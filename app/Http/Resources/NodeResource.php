@@ -18,6 +18,8 @@ class NodeResource extends JsonResource
             'name' => $this->resource->name,
             'type' => $this->resource->type,
             'content' => $this->resource->content,
+            'createdAt' => $this->resource->created_at,
+            'updatedAt' => $this->resource->updated_at,
         ];
     }
 }
