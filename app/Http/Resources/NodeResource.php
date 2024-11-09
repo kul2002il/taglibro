@@ -14,6 +14,7 @@ class NodeResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            'id' => $this->resource->id,
             'type' => $this->resource->type,
             'content' => $this->resource->content,
         ];
